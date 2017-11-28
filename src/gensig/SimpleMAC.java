@@ -22,9 +22,10 @@ public class SimpleMAC {
 		
                 
                 
-		mac.init(new SecretKeySpec("Password ".getBytes("UTF-8"), ""));
-		
-               
+		mac.init(new SecretKeySpec("Password ".getBytes("UTF-8"), "HMACSHA256"));
+		//SecretKeySpec(byte[] key, String algorithm) 
+                // 2. parametre algoritmayı istemektedir.
+            
                 
 		byte[] ret = mac.doFinal(simple.getBytes("UTF-8"));
 		
