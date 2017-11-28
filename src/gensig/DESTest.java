@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import javax.crypto.spec.DESKeySpec;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -25,7 +26,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 
 
 public class DESTest {

@@ -3,42 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gensig;
+package AES_Modules.AES_ECB;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
  * @author Rahmican
  */
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Base64;
- 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
- 
-public class AES {
- 
-    private static SecretKeySpec secretKey;
+public class Encryption_Decryption_Test {
+      private static SecretKeySpec secretKey;
     private static byte[] key;
     public  static SecretKey generatedKey;
     
-     public  static boolean generateKey() {
-         
-         System.out.println("GenerateKey Çalıştı.");
-        try {
-            generatedKey = KeyGenerator.getInstance("AES").generateKey();
-           
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("NoSuchAlgorithmException: " + e.getMessage());
-            return false;
-        } 
-        return true;
-    }
+  
     public static void setKey(String myKey)
     {
         MessageDigest sha = null;
@@ -74,11 +60,6 @@ public class AES {
         {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES");
-             if(generateKey())
-            {
-                secretKey = (SecretKeySpec) generatedKey;
-                System.out.println("SecretKey yeni oluşturulan Key ile değişti.");
-            }
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
@@ -96,7 +77,6 @@ public class AES {
         {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES");
-            secretKey = (SecretKeySpec) generatedKey;
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         }
@@ -108,7 +88,7 @@ public class AES {
     }
     public static void main(String[] args) throws NoSuchAlgorithmException
 {
-    final String secretKey = "Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır. ";
+    final String secretKey = "Bu bir şifreleme anahtarıdır. ";
     
     String originalString = "Netaş Aeropark";
     String encryptedString = encrypt(originalString, secretKey) ;
