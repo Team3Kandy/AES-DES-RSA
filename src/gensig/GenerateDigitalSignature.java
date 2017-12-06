@@ -27,22 +27,16 @@ public class GenerateDigitalSignature {
         PrivateKey privateKey = keyPair.getPrivate();
         PublicKey publicKey = keyPair.getPublic();
         
-         System.out.println("public key = " + publicKey);
-        System.out.println("private key = " + privateKey);
         
         
         
         Signature signature = Signature.getInstance("SHA1withDSA", "SUN");
         signature.initSign(privateKey);
 
-        //
-        // Supply the data to be signed to the Signature object
-        // using the update() method and generate the digital
-        // signature.
-        //
+        
         byte[] bytes = Files.readAllBytes(Paths.get("KeyPair/README"));
         
-            System.out.println("bytes: " + bytes);
+        System.out.println("bytes: " + bytes);
         signature.update(bytes);
         byte[] digitalSignature = signature.sign();
 
@@ -56,6 +50,9 @@ public class GenerateDigitalSignature {
         {
             System.out.println("İMZA GEÇERLİ");
             System.out.println(digitalSignature);
+            
+            //Private key ile başlattığımız Signature'u  public key ile doğruladık.
+            //İmzalama başarı ile tamamlamdı.
             
         }
         

@@ -25,20 +25,7 @@ public class AES {
  
     private static SecretKeySpec secretKey;
     private static byte[] key;
-    public  static SecretKey generatedKey;
-    
-     public  static boolean generateKey() {
-         
-         System.out.println("GenerateKey Çalıştı.");
-        try {
-            generatedKey = KeyGenerator.getInstance("AES").generateKey();
-           
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("NoSuchAlgorithmException: " + e.getMessage());
-            return false;
-        } 
-        return true;
-    }
+   
     public static void setKey(String myKey)
     {
         MessageDigest sha = null;
@@ -74,11 +61,7 @@ public class AES {
         {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES");
-             if(generateKey())
-            {
-                secretKey = (SecretKeySpec) generatedKey;
-                System.out.println("SecretKey yeni oluşturulan Key ile değişti.");
-            }
+           
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
@@ -96,7 +79,7 @@ public class AES {
         {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES");
-            secretKey = (SecretKeySpec) generatedKey;
+            
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         }
@@ -105,6 +88,7 @@ public class AES {
             System.out.println("Şifre Çözme Hatası : " + e.toString());
         }
         return null;
+        
     }
     public static void main(String[] args) throws NoSuchAlgorithmException
 {
@@ -116,7 +100,7 @@ public class AES {
      
     System.out.println("Orjinal Metin: " + originalString);
     System.out.println("Şifreli Metin "+encryptedString);
-    System.out.println("Generated Key "+generatedKey);   
+    //System.out.println("Generated Key "+generatedKey);   
     System.out.println("Çözülmüş metin: "+ decryptedString);
     
    //System.out.println("Maximum Key Uzunluğu: "+Cipher.getMaxAllowedKeyLength("AES"));
@@ -124,3 +108,4 @@ public class AES {
    
 }
 }
+//ufEiQWmsTPyJhtmmhg3KVw==
