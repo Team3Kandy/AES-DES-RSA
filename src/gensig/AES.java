@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.util.Arrays;
 import java.util.Base64;
  
@@ -20,9 +21,12 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
  
 public class AES {
  
+    
+    
     private static SecretKeySpec secretKey;
     private static byte[] key;
    
@@ -92,7 +96,9 @@ public class AES {
     }
     public static void main(String[] args) throws NoSuchAlgorithmException
 {
-    final String secretKey = "Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır. Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır.Bu bir şifreleme anahtarıdır. ";
+    Security.addProvider(new BouncyCastleProvider());
+    
+    final String secretKey = "a";
     
     String originalString = "Netaş Aeropark";
     String encryptedString = encrypt(originalString, secretKey) ;
@@ -108,4 +114,3 @@ public class AES {
    
 }
 }
-//ufEiQWmsTPyJhtmmhg3KVw==
