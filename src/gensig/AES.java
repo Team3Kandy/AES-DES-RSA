@@ -9,11 +9,10 @@ package gensig;
  *
  * @author Rahmican
  */
+
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.Security;
+import java.security.*;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 import java.util.Base64;
  
@@ -21,8 +20,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
- 
+
 public class AES {
  
     
@@ -40,11 +38,11 @@ public class AES {
             
             key = myKey.getBytes("UTF-8");
             
-            sha = MessageDigest.getInstance("SHA-1");
+            sha = MessageDigest.getInstance("SHA-1","BCFIPS");
             
             key = sha.digest(key);
             
-            key = Arrays.copyOf(key, 16); 
+            key = Arrays.copyOf(key, 16);
             
             
             secretKey = new SecretKeySpec(key, "AES");
@@ -55,6 +53,8 @@ public class AES {
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
         }
     }
     
@@ -64,15 +64,16 @@ public class AES {
         try
         {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES");
-           
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            Cipher cipher = Cipher.getInstance("AES","BCFIPS");
+
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey,(AlgorithmParameterSpec) null);
             
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         }
         catch (Exception e)
         {
-            System.out.println("Şifreleme hatası : " + e.toString());
+            e.printStackTrace();
+            System.out.println("Şifreleme hatası : " );
         }
         return null;
     }
@@ -82,9 +83,9 @@ public class AES {
         try
         {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES");
-            
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            Cipher cipher = Cipher.getInstance("AES","BCFIPS");
+
+            cipher.init(Cipher.DECRYPT_MODE, secretKey,(AlgorithmParameterSpec) null);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         }
         catch (Exception e)
@@ -96,10 +97,10 @@ public class AES {
     }
     public static void main(String[] args) throws NoSuchAlgorithmException
 {
-    Security.addProvider(new BouncyCastleProvider());
-    
-    final String secretKey = "a";
-    
+
+    final String secretKey = "1";
+
+
     String originalString = "Netaş Aeropark";
     String encryptedString = encrypt(originalString, secretKey) ;
     String decryptedString = decrypt(encryptedString, secretKey) ;
